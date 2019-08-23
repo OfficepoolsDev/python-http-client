@@ -1,6 +1,8 @@
 """HTTP Client library"""
 import json
 
+from django.core.serializers.json import DjangoJSONEncoder
+
 from .exceptions import handle_error
 
 try:
@@ -248,7 +250,7 @@ class Client(object):
                     else:
                         self.request_headers.setdefault(
                             'Content-Type', 'application/json')
-                        data = json.dumps(request_body).encode('utf-8')
+                        data = json.dumps(request_body, cls=DjangoJSONEncoder)
 
                 opener = urllib.build_opener()
                 request = urllib.Request(
